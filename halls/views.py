@@ -123,7 +123,7 @@ class DeleteHall(LoginRequiredMixin ,generic.DeleteView):
         hall = super(DeleteHall, self).get_object()
         if not hall.user == self.request.user:
             raise Http404
-        return video
+        return hall
 
 class DeleteVideo(LoginRequiredMixin ,generic.DeleteView):
     model = Video
@@ -134,4 +134,4 @@ class DeleteVideo(LoginRequiredMixin ,generic.DeleteView):
         video = super(DeleteVideo, self).get_object()
         if not video.hall.user == self.request.user:
             raise Http404
-            return video
+        return video
