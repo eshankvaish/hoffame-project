@@ -19,8 +19,13 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 # Create your views here.
 
 def home(request):
-    recent_halls = Hall.objects.all().order_by('-id')[:3]
-    popular_halls = [Hall.objects.get(pk=1),Hall.objects.get(pk=2), Hall.objects.get(pk=3)]
+    recent_halls = None
+    popular_halls = None
+    try:
+        recent_halls = Hall.objects.all().order_by('-id')[:3]
+        popular_halls = Hall.objects.all().order_by('id')[:3]
+    except:
+        pass
     return render(request, 'halls/home.html', {'recent_halls':recent_halls, 'popular_halls':popular_halls,})
 
 @login_required
@@ -81,8 +86,6 @@ class SignUp(generic.CreateView):
         user = authenticate(username=username, password=password)
         login(self.request, user)
         return view
-
-# def create_hall(request):
     
 class CreateHall(LoginRequiredMixin ,generic.CreateView):
     model = Hall
