@@ -107,14 +107,17 @@ class UpdateHall(LoginRequiredMixin ,generic.UpdateView):
     model = Hall
     template_name = 'halls/update_hall.html'
     fields = ['title']
-    success_url = reverse_lazy('dashboard')
-    #success_url = redirect('halloffame'+str(.id))
+    #success_url = reverse_lazy('dashboard')
 
     def get_object(self):
         hall = super(UpdateHall, self).get_object()
         if not hall.user == self.request.user:
             raise Http404
-        return video
+        return hall
+    
+    def get_success_url(self):
+        #goto detail page after updation
+        return reverse_lazy('detail_hall', kwargs={'pk': self.object.pk})
 
 
 class DeleteHall(LoginRequiredMixin ,generic.DeleteView):
